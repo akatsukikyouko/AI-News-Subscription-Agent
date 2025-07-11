@@ -1,0 +1,430 @@
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Microsoft YaHei", "PingFang SC";
+    --border-radius-sm: 0.25rem; /* 小圆角 */
+    --border-radius-md: 0.5rem;  /* 中等圆角 */
+    --border-radius-lg: 1rem;   /* 大圆角 */
+    --box-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08); /* 小阴影 */
+    --box-shadow-md: 0 6px 12px rgba(0, 0, 0, 0.12); /* 中等阴影 */
+    --transition-speed: 0.3s;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: #f0f2f5; /* 浅灰背景 */
+    color: var(--dark-color);
+    margin: 0;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 0 1.5rem; /* 增加内边距 */
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2.5rem; /* 增加底部间距 */
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e0e0e0; /* 细分隔线 */
+}
+
+h1, h2, h3 {
+    color: #2c3e50; /* 深色标题 */
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    border-bottom: none; /* 移除默认下划线 */
+}
+
+.card {
+    background: #fff;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--box-shadow-sm);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: transform var(--transition-speed) ease;
+}
+
+.card:hover {
+    transform: translateY(-3px); /* 悬停上浮效果 */
+    box-shadow: var(--box-shadow-md);
+}
+
+.subscription-card h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+    font-size: 1.4rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem; /* 增加表单组间距 */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.6rem; /* 增加标签底部间距 */
+    font-weight: 600; /* 加粗 */
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group input[type="time"],
+.form-group input[type="url"] {
+    width: 100%;
+    padding: 0.85rem 1rem; /* 增加内边距 */
+    border: 1px solid #dcdfe6; /* 边框颜色 */
+    border-radius: var(--border-radius-sm);
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="time"]:focus,
+.form-group input[type="url"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* 聚焦阴影 */
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: center;
+    transition: background-color var(--transition-speed) ease, transform 0.1s ease;
+    font-weight: 500;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-primary { background-color: var(--primary-color); }
+.btn-primary:hover { background-color: #0069d9; }
+
+.btn-secondary { background-color: var(--secondary-color); }
+.btn-secondary:hover { background-color: #5a6268; }
+
+.btn-danger { background-color: var(--danger-color); }
+.btn-danger:hover { background-color: #c82333; }
+
+.btn-small {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+}
+
+.card-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 0.75rem; /* 增加按钮间距 */
+    flex-wrap: wrap;
+    justify-content: flex-end; /* 按钮右对齐 */
+}
+
+.status-section {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #e0e0e0; /* 虚线分隔 */
+    font-size: 0.95rem;
+}
+
+.status-badge {
+    padding: 0.3rem 0.7rem;
+    border-radius: 1rem;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+.status-completed { background-color: var(--success-color); }
+.status-running { background-color: var(--warning-color); color: #333; }
+.status-queued { background-color: var(--info-color); }
+.status-failed { background-color: var(--danger-color); }
+.status-never { background-color: var(--secondary-color); }
+
+.flash-messages { margin-bottom: 1.5rem; }
+.flash {
+    padding: 1rem 1.25rem;
+    border-radius: var(--border-radius-sm);
+    color: #fff;
+    font-weight: 500;
+    box-shadow: var(--box-shadow-sm);
+}
+.flash.success { background-color: var(--success-color); }
+.flash.error { background-color: var(--danger-color); }
+.flash.info { background-color: var(--info-color); }
+
+/* Report Page Styling */
+.back-link {
+    display: inline-block; /* 改为inline-block */
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 0.5rem 0;
+}
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.report-content {
+    background: #fff;
+    padding: 2rem;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--box-shadow-sm);
+}
+.report-content h1, .report-content h2, .report-content h3 {
+    border-bottom: 1px solid #eee; /* 细分隔线 */
+    padding-bottom: 0.5rem;
+    margin-top: 1.5rem;
+    color: #2c3e50;
+}
+.report-content strong {
+    color: #0056b3; /* 更深的蓝色强调 */
+}
+
+.subtitle {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: -0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Modal styles - Enhanced */
+.modal {
+    display: none; /* 默认隐藏 */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* 半透明背景 */
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    padding: 1rem;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    border-radius: var(--border-radius-lg); /* 更大的圆角 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* 更明显的阴影 */
+    padding: 2.5rem; /* 增加内边距 */
+    width: 90%; /* 宽度调整 */
+    max-width: 650px; /* 最大宽度 */
+    position: relative;
+    /* 移除了 max-height 和 overflow-y，由内部元素控制滚动 */
+    animation: fadeIn 0.3s ease-out; /* 淡入动画 */
+    display: flex; /* 使用 flex 布局 */
+    flex-direction: column; /* 内容垂直排列 */
+}
+
+/* 新增的滚动区域样式 */
+.modal-body-scrollable {
+    max-height: 70vh; /* 设置最大高度，例如视口高度的70% */
+    overflow-y: auto; /* 垂直滚动 */
+    padding-right: 15px; /* 为滚动条预留空间，防止内容被遮挡或圆角被裁剪 */
+    margin-right: -15px; /* 负边距抵消 padding-right */
+    /* 增加对滚动条的简单美化，仅限Webkit浏览器 */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: var(--primary-color) #f0f0f0; /* Firefox */
+}
+
+/* Webkit 浏览器滚动条美化 */
+.modal-body-scrollable::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body-scrollable::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+.modal-body-scrollable::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+}
+
+.modal-body-scrollable::-webkit-scrollbar-thumb:hover {
+    background: #0056b3;
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-content h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    border-bottom: none;
+}
+
+.close {
+    color: #888;
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2.2rem;
+    font-weight: normal;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close:hover,
+.close:focus {
+    color: #333;
+}
+
+.news-source-checkboxes {
+    border: 1px solid #dcdfe6;
+    padding: 1rem;
+    border-radius: var(--border-radius-sm);
+    max-height: 200px; /* 保持滚动 */
+    overflow-y: auto; /* 启用滚动 */
+    background-color: #f9f9f9;
+    margin-top: 0.5rem;
+}
+
+.news-source-checkboxes label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    font-weight: normal;
+    cursor: pointer;
+    color: #555;
+    transition: color 0.2s ease;
+}
+
+.news-source-checkboxes label:hover {
+    color: var(--primary-color);
+}
+
+.news-source-checkboxes input[type="checkbox"] {
+    margin-right: 0.8rem;
+    transform: scale(1.1);
+    accent-color: var(--primary-color);
+}
+
+.news-source-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.5rem;
+}
+
+.news-source-list li {
+    background-color: #f0f4f7;
+    border: 1px solid #e6eaf0;
+    margin-bottom: 0.8rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    word-break: break-all;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.news-source-list li .btn-danger {
+    margin-left: 1rem;
+    flex-shrink: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        margin: 1rem auto;
+        padding: 0 1rem;
+    }
+
+    .modal-content {
+        padding: 1.5rem;
+        max-width: 95%;
+    }
+
+    .card-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .btn {
+        width: 100%;
+        margin-right: 0 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 1rem;
+    }
+    .modal-content h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .close {
+        font-size: 1.8rem;
+        top: 0.8rem;
+        right: 1rem;
+    }
+}
+
+
+.news-source-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.5rem;
+    max-height: 200px; /* Add this line for max height */
+    overflow-y: auto; /* Add this line for vertical scrolling */
+    padding-right: 15px; /* Add this for scrollbar spacing */
+    margin-right: -15px; /* Add this to offset padding-right */
+    /* Add scrollbar styling for webkit browsers */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: var(--primary-color) #f0f0f0; /* Firefox */
+}
+
+/* Webkit browser scrollbar styling for news-source-list */
+.news-source-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.news-source-list::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+.news-source-list::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+}
+
+.news-source-list::-webkit-scrollbar-thumb:hover {
+    background: #0056b3;
+}

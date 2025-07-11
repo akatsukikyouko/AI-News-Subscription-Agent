@@ -17,8 +17,7 @@ def init_db():
     conn = get_db()
     cursor = conn.cursor()
     
-    # Subscription plans table
-    # 'deleted_at' column is for soft deletion
+
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS subscriptions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,

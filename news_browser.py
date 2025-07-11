@@ -6,7 +6,7 @@ from fastmcp import FastMCP, Context
 
 
 co = ChromiumOptions()
-#无头模式
+#如需使用无头模式
 #co = ChromiumOptions().headless()
 #我用的是edge，如果想用别的浏览器，请改变这里的路径
 #co.set_browser_path('C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe')

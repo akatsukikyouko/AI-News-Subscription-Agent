@@ -126,12 +126,12 @@ def add_subscription():
 def run_manual(subscription_id):
     """Manually triggers a subscription to run immediately."""
     sub = db.get_subscription_by_id(subscription_id)
-    if sub and sub['deleted_at'] is None: # Ensure the subscription exists and is not soft-deleted
-        # Get news URLs for this subscription
+    if sub and sub['deleted_at'] is None: 
+
         news_urls = [source['url'] for source in sub['news_sources']]
-        # 1. Create a new report entry in the DB with 'queued' status
+
         report_id = db.create_report_entry(sub['id'])
-        # 2. Add the task to the queue, including news_urls
+
         task_queue.put((report_id, sub['prompt'], news_urls))
         flash(f'"{sub["name"]}" 已加入队列。', 'info')
     else:
