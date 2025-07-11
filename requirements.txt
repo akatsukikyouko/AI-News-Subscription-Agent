@@ -1,0 +1,5 @@
+DrissionPage==4.1.0.18
+fastmcp==2.10.4
+Flask==2.2.5
+Flask_APScheduler==1.13.1
+pydantic-ai==0.4.2

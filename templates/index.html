@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日AI报订阅</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- 现代浏览器 -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <!-- Apple设备 -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    <!-- Android -->
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h2>智能订阅助理</h2>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <main>
+            <button id="newPlanBtn" class="btn btn-primary">创建新订阅</button>
+            <button id="manageSourcesBtn" class="btn btn-secondary">管理新闻源</button>
+
+            <h2>我的订阅</h2>
+            <div class="subscription-list">
+                {% for sub in subscriptions %}
+                <div class="card subscription-card">
+                    <h3>{{ sub.name }}</h3>
+                    <p><strong>关键词:</strong> {{ sub.prompt }}</p>
+                    <p><strong>计划时间:</strong> 每日 {{ sub.schedule_time }}</p>
+                    <p>
+                        <strong>新闻源:</strong>
+                        {% if sub.news_sources %}
+                        {% for source in sub.news_sources %}
+                        <span class="badge">{{ source.name }}</span>
+                        {% endfor %}
+                        {% else %}
+                        无
+                        {% endif %}
+                    </p>
+                    <div class="status-section">
+                        <strong>上次运行状态:</strong>
+                        {% if sub.status %}
+                        <span class="status-badge status-{{ sub.status.lower() }}">{{ sub.status }}</span>
+                        <small>于 {{ sub.created_at.strftime('%Y-%m-%d %H:%M') if sub.created_at }}</small>
+                        {% else %}
+                        <span class="status-badge status-never">从未运行</span>
+                        {% endif %}
+                    </div>
+                    <div class="card-actions">
+                        <a href="{{ url_for('run_manual', subscription_id=sub.id) }}" class="btn btn-secondary">立即运行</a>
+                        {% if sub.status == 'completed' %}
+                        <a href="{{ url_for('view_report', report_id=sub.report_id) }}" class="btn btn-primary">查看报告</a>
+                        {% endif %}
+                        <a href="{{ url_for('delete_subscription', subscription_id=sub.id) }}" class="btn btn-danger"
+                            onclick="return confirm('确定要删除这个订阅计划吗？')">删除</a>
+                    </div>
+                </div>
+                {% else %}
+                <p>尚无订阅计划。点击上方按钮创建新计划！</p>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+
+    <div id="planModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>创建新订阅计划</h2>
+            <div class="modal-body-scrollable">
+                <form action="{{ url_for('add_subscription') }}" method="post">
+                    <div class="form-group">
+                        <label for="name">计划名称</label>
+                        <input type="text" id="name" name="name" placeholder="例如：每日科技简报" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prompt">关键词/提示词</label>
+                        <input type="text" id="prompt" name="prompt" placeholder="例如：AI进展、量子计算" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="schedule_time">每日运行时间(24小时制)</label>
+                        <input type="time" id="schedule_time" name="schedule_time" required>
+                    </div>
+                    <div class="form-group">
+                        <label>选择新闻源</label>
+                        <div class="news-source-checkboxes">
+                            {% for source in news_sources %}
+                            <label>
+                                <input type="checkbox" name="news_sources" value="{{ source.id }}"> {{ source.name }}
+                            </label><br>
+                            {% else %}
+                            <p>请先在“管理新闻源”中添加新闻源。</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+            </div>
+            <button type="submit" class="btn btn-primary">创建计划</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="manageSourcesModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>管理新闻源</h2>
+            <h3>添加新新闻源</h3>
+            <form action="{{ url_for('add_news_source_route') }}" method="post">
+                <div class="form-group">
+                    <label for="source_name">名称</label>
+                    <input type="text" id="source_name" name="source_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="source_url">URL</label>
+                    <input type="url" id="source_url" name="source_url" placeholder="例如：https://news.example.com"
+                        required>
+                </div>
+                <button type="submit" class="btn btn-primary">添加新闻源</button>
+            </form>
+
+            <h3>现有新闻源</h3>
+            {% if news_sources %}
+            <ul class="news-source-list">
+                {% for source in news_sources %}
+                <li>
+                    {{ source.name }} ({{ source.url }})
+                    <a href="{{ url_for('delete_news_source_route', source_id=source.id) }}"
+                        class="btn btn-danger btn-small" onclick="return confirm('确定要删除这个新闻源吗？这会影响所有使用它的订阅计划。')">删除</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>还没有添加任何新闻源。</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        // 模态框控制逻辑
+        const planModal = document.getElementById("planModal");
+        const newPlanBtn = document.getElementById("newPlanBtn");
+        const manageSourcesModal = document.getElementById("manageSourcesModal");
+        const manageSourcesBtn = document.getElementById("manageSourcesBtn");
+
+        const closeButtons = document.querySelectorAll(".modal .close");
+
+        newPlanBtn.onclick = function () {
+            planModal.style.display = "flex"; // 修改为 flex
+        }
+
+        manageSourcesBtn.onclick = function () {
+            manageSourcesModal.style.display = "flex"; // 修改为 flex
+        }
+
+        closeButtons.forEach(btn => {
+            btn.onclick = function () {
+                btn.closest('.modal').style.display = "none";
+            }
+        });
+
+        window.onclick = function (event) {
+            if (event.target == planModal) {
+                planModal.style.display = "none";
+            }
+            if (event.target == manageSourcesModal) {
+                manageSourcesModal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ report.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
+    <!-- 现代浏览器 -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <!-- Apple设备 -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    <!-- Android -->
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <a href="{{ url_for('index') }}" class="back-link">&larr; 返回</a>
+            <h1>{{ report.name }}</h1>
+            <p class="subtitle">生成时间 {{ report.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+        </header>
+
+        <main class="report-content">
+            <div id="markdown-content" class="markdown-body"></div>
+        </main>
+    </div>
+
+    <div id="raw-markdown" style="display:none;">{{ report.content }}</div>
+
+    <script src="{{ url_for('static', filename='js/marked.min.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const rawMarkdown = document.getElementById('raw-markdown').textContent;
+            const contentDiv = document.getElementById('markdown-content');
+            // Sanitize the content to prevent XSS attacks if the source is not trusted
+            contentDiv.innerHTML = marked.parse(rawMarkdown);
+        });
+    </script>
+</body>
+
+</html>
