@@ -42,10 +42,7 @@
 
 ### 2. 克隆代码库
 
-```bash
-git clone <repository-url>
-cd <repository-directory>
-```
+
 
 ### 3. 安装依赖
 
